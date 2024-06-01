@@ -2,8 +2,11 @@ import React from 'react';
 import Image from 'next/image';
 import logo from '../public/logo.svg';
 import Link from 'next/link';
+interface HeaderProps {
+  className?: string;
+}
 
-export default function Header() {
+const Header: React.FC<HeaderProps> = ({ className }) => {
   return (
     <header className="mb-16 flex h-16 w-screen items-center  justify-center pt-16">
       <div className="item-center flex justify-center md:ml-10 md:w-1/5">
@@ -24,3 +27,4 @@ export default function Header() {
     </header>
   );
 }
+export default Header;
