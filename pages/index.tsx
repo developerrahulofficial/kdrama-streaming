@@ -1,11 +1,10 @@
-// Import necessary stuff to make our app work
 import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Carousel from '../components/Carousel/Carousel';
 import Image from 'next/image';
-import axios from 'axios'; // Import Axios for making web requests
+import axios from 'axios';
 
 // Import pictures we want to use
 import card1 from '../public/1.jpg';
@@ -15,33 +14,32 @@ import card4 from '../public/4.jpeg';
 import card5 from '../public/5.jpg';
 import card6 from '../public/6.jpg';
 
+// Define the Episode interface
 interface Episode {
   video: string;
   subtitle?: string;
   duration?: string;
 }
 
-
 // This is the main part of our app
 const Home: NextPage = () => {
   // State variables to keep track of different things
-  const [episodes, setEpisodes] = useState<Episode[]>([]); / // List of episodes
+  const [episodes, setEpisodes] = useState<Episode[]>([]); // List of episodes
   const [selectedEpisode, setSelectedEpisode] = useState<number | null>(null); // Currently selected episode
   const [selectedTitle, setSelectedTitle] = useState<string>('It_s_Okay_to_Not_Be_Okay'); // Currently selected title
   const [showVideo, setShowVideo] = useState(false); // Whether to show the video or not
   const [message, setMessage] = useState<string>('Hey there! 😊 Welcome to our little world of memories and magic. ✨🎬 Feel free to dive into the nostalgia! 🌟💖'); // Welcome message
   const [currentSeriesTitle, setCurrentSeriesTitle] = useState<string>(''); // Current series title
 
-  // This useEffect runs when the component mounts or when selectedTitle changes
   useEffect(() => {
     // Function to fetch episodes from the server
-  const fetchEpisodes = async () => {
-    const response = await fetch(`/api/episodes?title=${selectedTitle}`);
-    const data: Episode[] = await response.json();
-    setEpisodes(data);
-  };
-  fetchEpisodes();
-    
+    const fetchEpisodes = async () => {
+      const response = await fetch(`/api/episodes?title=${selectedTitle}`);
+      const data: Episode[] = await response.json();
+      setEpisodes(data);
+    };
+    fetchEpisodes();
+
     // List of welcome messages to choose from
     const messages = [
       "Hey there! 😊 Welcome to our little world of memories and magic. ✨🎬💖",
@@ -55,7 +53,6 @@ const Home: NextPage = () => {
     setMessage(messages[randomIndex]);
   }, [selectedTitle]);
 
-  // This useEffect runs when selectedTitle changes
   useEffect(() => {
     // Function to fetch the current series title from the server
     const fetchSeriesTitle = async () => {
@@ -66,19 +63,16 @@ const Home: NextPage = () => {
     fetchSeriesTitle();
   }, [selectedTitle]);
 
-  // Function to handle what happens when an image is clicked
   const handleImageClick = (title: string) => {
     setSelectedEpisode(0); // Select the first episode
     setSelectedTitle(title); // Set the new title
     setShowVideo(true); // Show the video player
   };
 
-  // Function to handle what happens when an episode is clicked
   const handleEpisodeClick = (index: number) => {
     setSelectedEpisode(index); // Set the selected episode
   };
 
-  // List of images to show in the carousel
   const imagesItems = [
     <Image src={card1} alt="Parasyte The Grey" className="w-full h-full" onClick={() => handleImageClick('Parasyte__The_Grey')} />,
     <Image src={card2} alt="The Glory" className="w-full h-full" onClick={() => handleImageClick('The_Glory')} />,
@@ -106,12 +100,12 @@ const Home: NextPage = () => {
           <div className="video-section flex flex-col items-center">
             <h2 className="text-2xl font-bold mb-4">{currentSeriesTitle}</h2>
             <div className="video-container rounded-lg overflow-hidden">
-             <video key={episodes[selectedEpisode]?.video} controls className="w-full h-auto">
-  <source src={episodes[selectedEpisode]?.video} type="video/mp4" />
-  {episodes[selectedEpisode]?.subtitle && (
-    <track src={episodes[selectedEpisode]?.subtitle} kind="subtitles" srcLang="en" label="English" default />
-  )}
-</video>
+              <video key={episodes[selectedEpisode].video} controls className="w-full h-auto">
+                <source src={episodes[selectedEpisode].video} type="video/mp4" />
+                {episodes[selectedEpisode].subtitle && (
+                  <track src={episodes[selectedEpisode].subtitle} kind="subtitles" srcLang="en" label="English" default />
+                )}
+              </video>
             </div>
             <div className="episodes-list-container mt-4 w-full max-w-md overflow-y-auto">
               <div className="episodes-list">
