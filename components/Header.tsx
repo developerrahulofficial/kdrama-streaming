@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
         </Link>
       </div>
       <nav className="hidden flex-1 items-center justify-center space-x-10 md:ml-16 md:flex">
-        { <p>Made with<span role="img" aria-label="heart emoji">❤️</span> by <a href="https://github.com/your-github-username" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Developer Rahul</a> </p>
+        { <p>Made with<span role="img" aria-label="heart emoji">❤️</span> by <a href="https://github.com/developerrahulofficial" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Developer Rahul</a> </p>
       }
       </nav>
     </header>
