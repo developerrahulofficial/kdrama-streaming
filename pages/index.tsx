@@ -15,10 +15,17 @@ import card4 from '../public/4.jpeg';
 import card5 from '../public/5.jpg';
 import card6 from '../public/6.jpg';
 
+interface Episode {
+  video: string;
+  subtitle?: string;
+  duration?: string;
+}
+
+
 // This is the main part of our app
 const Home: NextPage = () => {
   // State variables to keep track of different things
-  const [episodes, setEpisodes] = useState([]); // List of episodes
+  const [episodes, setEpisodes] = useState<Episode[]>([]); / // List of episodes
   const [selectedEpisode, setSelectedEpisode] = useState<number | null>(null); // Currently selected episode
   const [selectedTitle, setSelectedTitle] = useState<string>('It_s_Okay_to_Not_Be_Okay'); // Currently selected title
   const [showVideo, setShowVideo] = useState(false); // Whether to show the video or not
@@ -28,13 +35,13 @@ const Home: NextPage = () => {
   // This useEffect runs when the component mounts or when selectedTitle changes
   useEffect(() => {
     // Function to fetch episodes from the server
-    const fetchEpisodes = async () => {
-      const response = await fetch(`/api/episodes?title=${selectedTitle}`);
-      const data = await response.json();
-      setEpisodes(data);
-    };
-    fetchEpisodes();
-
+  const fetchEpisodes = async () => {
+    const response = await fetch(`/api/episodes?title=${selectedTitle}`);
+    const data: Episode[] = await response.json();
+    setEpisodes(data);
+  };
+  fetchEpisodes();
+    
     // List of welcome messages to choose from
     const messages = [
       "Hey there! 😊 Welcome to our little world of memories and magic. ✨🎬💖",
@@ -99,12 +106,12 @@ const Home: NextPage = () => {
           <div className="video-section flex flex-col items-center">
             <h2 className="text-2xl font-bold mb-4">{currentSeriesTitle}</h2>
             <div className="video-container rounded-lg overflow-hidden">
-              <video key={episodes[selectedEpisode].video} controls className="w-full h-auto">
-                <source src={episodes[selectedEpisode].video} type="video/mp4" />
-                {episodes[selectedEpisode].subtitle && (
-                  <track src={episodes[selectedEpisode].subtitle} kind="subtitles" srcLang="en" label="English" default />
-                )}
-              </video>
+             <video key={episodes[selectedEpisode]?.video} controls className="w-full h-auto">
+  <source src={episodes[selectedEpisode]?.video} type="video/mp4" />
+  {episodes[selectedEpisode]?.subtitle && (
+    <track src={episodes[selectedEpisode]?.subtitle} kind="subtitles" srcLang="en" label="English" default />
+  )}
+</video>
             </div>
             <div className="episodes-list-container mt-4 w-full max-w-md overflow-y-auto">
               <div className="episodes-list">
